@@ -1,0 +1,1 @@
+{"timestamp":"2026-11-02T10:16:00.000001+0000","flow_id":42,"in_iface":"cni0","event_type":"http","src_ip":"10.42.0.9","src_port":40000,"dest_ip":"10.42.0.20","dest_port":8080,"proto":"TCP","http":{"hostname":"auth.zk.local","url":"/login/zk","http_method":"POST","status":401,"http_user_agent":"python-requests/2.32"}}
