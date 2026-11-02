@@ -1,0 +1,8 @@
+# zk-lab Suricata rules (sid 9000000-9000999). Loaded with: suricata -S local.rules
+# Traefik -> zk-auth traffic is plain HTTP inside the cluster, so Suricata on cni0 sees the requests.
+
+# a burst of login attempts from one source (brute force / credential stuffing)
+alert http any any -> any any (msg:"ZK-LAB login burst"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/login/"; startswith; threshold:type both, track by_src, count 20, seconds 60; classtype:attempted-user; sid:9000001; rev:1;)
+
+# any HTTP request to the auth service, for traffic visibility in the SIEM
+alert http any any -> any any (msg:"ZK-LAB auth request"; flow:established,to_server; http.uri; content:"/login/"; startswith; classtype:misc-activity; priority:4; sid:9000002; rev:1;)
