@@ -1,0 +1,40 @@
+title: zk-auth failed login
+id: ebb67aac-af83-453a-9f8b-6dcf0bcb61d2
+name: zk_auth_failed_login
+status: experimental
+description: Any failed zk-auth login, password or zero-knowledge. Base rule for the brute force correlation below; not alerted on its own.
+author: Darius Onofrei
+date: 2026-11-02
+logsource:
+  product: zk-auth
+  category: authentication
+detection:
+  selection:
+    event.action:
+      - login-password
+      - login-zk
+    event.outcome: failure
+  condition: selection
+level: low
+---
+title: zk-auth brute force from one source
+id: 9474a81c-779a-4b9d-b0a9-75d2c06192d4
+status: experimental
+description: Ten or more failed logins from the same source IP within five minutes (password guessing or credential stuffing).
+author: Darius Onofrei
+date: 2026-11-02
+tags:
+  - attack.credential-access
+  - attack.t1110.001
+correlation:
+  type: event_count
+  rules:
+    - zk_auth_failed_login
+  group-by:
+    - source.ip
+  timespan: 5m
+  condition:
+    gte: 10
+falsepositives:
+  - Several users behind one NAT mistyping passwords
+level: high

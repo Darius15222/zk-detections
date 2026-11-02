@@ -1,0 +1,21 @@
+title: zk-auth Schnorr proof replay
+id: 196f4644-7f8a-486c-9d55-e0799db818cd
+status: experimental
+description: A zero-knowledge login reused a server nonce that was already consumed. An honest client never does this; it means a captured proof is being replayed.
+author: Darius Onofrei
+date: 2026-11-02
+tags:
+  - attack.credential-access
+  - attack.t1550
+logsource:
+  product: zk-auth
+  category: authentication
+detection:
+  selection:
+    event.action: login-zk
+    event.outcome: failure
+    event.reason: nonce_reuse
+  condition: selection
+falsepositives:
+  - A client bug that retries the same request after a timeout
+level: high
