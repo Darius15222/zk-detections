@@ -1,0 +1,21 @@
+title: zk-auth forged Schnorr proof
+id: 1f6c9e27-7bc7-4fcd-a231-de64fdee24d8
+status: experimental
+description: A zero-knowledge login with a fresh nonce failed verification. The prover does not know the secret key for the registered public key (forgery or wrong key).
+author: Darius Onofrei
+date: 2026-11-02
+tags:
+  - attack.credential-access
+  - attack.t1110
+logsource:
+  product: zk-auth
+  category: authentication
+detection:
+  selection:
+    event.action: login-zk
+    event.outcome: failure
+    event.reason: invalid_proof
+  condition: selection
+falsepositives:
+  - A user whose client lost or rotated its key
+level: medium

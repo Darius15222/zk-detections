@@ -1,0 +1,18 @@
+# Sigma processing pipeline: route each logsource to its Elastic data stream (ECS field names need no mapping)
+name: zk-lab index routing
+priority: 20
+transformations:
+  - id: zk_auth_index
+    type: set_state
+    key: index
+    val: logs-zkauth-*
+    rule_conditions:
+      - type: logsource
+        product: zk-auth
+  - id: suricata_index
+    type: set_state
+    key: index
+    val: logs-suricata-*
+    rule_conditions:
+      - type: logsource
+        product: suricata

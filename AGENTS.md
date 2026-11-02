@@ -7,11 +7,13 @@ Detection-as-code for the zk-secops lab: Logstash pipelines that map raw securit
 | Command | Does |
 |---|---|
 | `python3 tests/test_suricata.py -v` | Runs the pipeline in real Logstash on `tests/samples/`, and `suricata -T` on the rules (needs Docker) |
+| `rules/build.sh` | `sigma check` + converts `rules/sigma/` to Elastic ES\|QL rules in `rules/elastic/sigma-rules.ndjson` (needs `pip install --require-hashes -r requirements-sigma.txt`) |
 
 ## Layout
 
 - `pipelines/*.conf`: filter blocks only; input and output are set by the deployment (`zk-platform`) or by `tests/harness.conf`.
 - `rules/suricata/local.rules`: Suricata rules, sids 9000000-9000999.
+- `rules/sigma/*.yml`: Sigma rules on ECS fields; `rules/sigma-pipeline.yml` routes each logsource to its data stream. `rules/elastic/sigma-rules.ndjson` is generated, never edited by hand; CI fails if it drifts.
 - `tests/samples/`: one raw event per file; every pipeline has at least one positive and one negative sample.
 
 ## Rules

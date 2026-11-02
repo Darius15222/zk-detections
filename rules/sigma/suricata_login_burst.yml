@@ -1,0 +1,20 @@
+title: Suricata ZK-LAB login burst
+id: b8f14aa0-2649-4112-9ddf-da905791c1a5
+status: experimental
+description: Network-side view of the same attack. Suricata rule 9000001 fired (20+ POSTs to /login/ from one source in 60 s), so the SIEM sees it even if the application logs are lost.
+author: Darius Onofrei
+date: 2026-11-02
+tags:
+  - attack.credential-access
+  - attack.t1110
+logsource:
+  product: suricata
+  category: ids
+detection:
+  selection:
+    event.kind: alert
+    rule.id: 9000001
+  condition: selection
+falsepositives:
+  - Load tests against the auth service
+level: medium
