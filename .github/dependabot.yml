@@ -22,6 +22,9 @@ updates:
       sigma:
         patterns: ["*"]
     ignore:
-      # pysigma-backend-elasticsearch 2.1.x needs pySigma < 2
+      # pysigma-backend-elasticsearch 2.1.x needs pySigma < 2, and sigma-cli 4 needs pySigma 2 (pip: ResolutionImpossible).
+      # Lift both together when the Elasticsearch backend supports pySigma 2.
       - dependency-name: pysigma
+        update-types: ["version-update:semver-major"]
+      - dependency-name: sigma-cli
         update-types: ["version-update:semver-major"]
