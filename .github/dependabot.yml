@@ -1,0 +1,27 @@
+# R-03: pins age; Dependabot proposes the bump, CI decides. Weekly and grouped to keep the PR count low.
+# Not covered (bump by hand): image digests inside tests and workflow commands.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown: # wait a week: a freshly published version can be malicious or broken
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown: # wait a week: a freshly published version can be malicious or broken
+      default-days: 7
+    groups:
+      sigma:
+        patterns: ["*"]
+    ignore:
+      # pysigma-backend-elasticsearch 2.1.x needs pySigma < 2
+      - dependency-name: pysigma
+        update-types: ["version-update:semver-major"]
