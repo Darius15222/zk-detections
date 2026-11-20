@@ -20,4 +20,4 @@ Detection-as-code for the zk-secops lab: Logstash pipelines that map raw securit
 
 - A pipeline change ships with a sample and an assertion for the new field.
 - Field names follow ECS. `zk-auth` already logs ECS directly and needs no pipeline.
-- Images in tests are pinned by digest and match the versions deployed by `zk-platform`.
+- Images in tests are pinned by digest and match the versions deployed by `zk-platform`. Renovate bumps each repository in its own PR: merge the zk-detections and zk-platform bumps of the same image together.
