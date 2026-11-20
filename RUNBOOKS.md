@@ -11,7 +11,7 @@ In the lab every request reaches zk-auth through Traefik, and inside k3d `source
 **Check**
 1. Which users were targeted: `event.outcome: failure and source.ip: "<ip>"`, split by `user.name`. One user is guessing; many users is credential stuffing or spraying.
 2. Did it work: `event.outcome: success and source.ip: "<ip>"` after the first failure. A success after a run of failures is a compromised account until proven otherwise.
-3. Did the lockout engage: `event.reason: rate_limited` for the same pair. If it did, the guessing stopped at ten attempts per source and user (in k3d, where every client shares the gateway address, effectively per user) for 5 minutes after the tenth. Many `event.action: challenge` failures with `event.reason: busy` mean the challenge store was flooded: zk login answers 503 for everyone until it drains.
+3. Did the lockout engage: `event.reason: rate_limited` for the same pair. If it did, the guessing stopped at ten attempts per source and user (in k3d, where every client shares the gateway address, effectively per user) for 5 minutes after the tenth. Many `event.action: challenge` failures with `event.reason: busy` mean the challenge store was flooded: `/challenge` answers 503 for everyone, so no zk login can start, until it drains.
 
 **Do**
 - No success: nothing to contain, the lockout already throttles the pair. Record the source.
